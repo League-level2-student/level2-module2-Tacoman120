@@ -5,9 +5,15 @@ package _08_LeagueSnake;
  * 
  * 1. Add x and y member variables.
  *    They will hold the corner location of each segment of the snake.
- * 
+ 
  * 2. Add a constructor with parameters to initialize each variable.
  */
 public class Segment {
+    int x;
+    int y;
     
+    Segment(int x, int y){
+    	this.x = x;
+    	this.y = y;
+    }
 }
