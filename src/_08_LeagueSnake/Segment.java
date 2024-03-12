@@ -16,4 +16,5 @@ public class Segment {
     	this.x = x;
     	this.y = y;
     }
+   
 }

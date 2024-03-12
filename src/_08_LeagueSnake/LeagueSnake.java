@@ -18,7 +18,7 @@ public class LeagueSnake extends PApplet {
     int foodX;
     int foodY;
     int direction = UP;
-    int eaten = 0;
+    int eaten = 1;
    
     ArrayList<Segment> tail = new ArrayList<Segment>();
     /*
@@ -69,14 +69,15 @@ public class LeagueSnake extends PApplet {
         // Draw the head of the snake followed by its tail
     	fill(10, 250, 0);
     	rect(head.x, head.y, 10, 10);
+    	manageTail();
     }
 
     void drawTail() {
         // Draw each segment of the tail
-    	    
-    		fill(10, 250, 0);
-    		int a = head.x, b = head.y;
-    		rect( a, b, 10, 10);
+    	fill(10, 250, 0);
+    	for(Segment s: tail) {
+    		rect(s.x, s.y, 10, 10);
+    		}
     	}
     
 
@@ -90,14 +91,22 @@ public class LeagueSnake extends PApplet {
         // After drawing the tail, add a new segment at the "start" of the tail and
         // remove the one at the "end"
         // This produces the illusion of the snake tail moving.
-    	tail.add(1, new Segment(head.x, head.y));
-    	tail.remove(tail.size());
+    	checkTailCollision();
+    	drawTail();
+    	tail.add(new Segment(head.x, head.y));
+    	tail.remove(0);
     	
     }
 
     void checkTailCollision() {
         // If the snake crosses its own tail, shrink the tail back to one segment
-        if()
+    	
+    	for(int i = 1; i < tail.size(); i++) {
+    	if(tail.get(i).x+10 >= head.x && tail.get(i).y-10 <= head.y && tail.get(i).x+10 <= head.x+10 && tail.get(i).y-10 >= head.y-10)  {
+        eaten = 0;
+        tail = new ArrayList<Segment>();
+    	}
+    	}
     }
 
     /*
@@ -160,9 +169,11 @@ public class LeagueSnake extends PApplet {
         if(head.x+10 >= foodX && head.y-10 <= foodY && head.x+10 <= foodX+10 && head.y-10 >= foodY-10) {
     	eaten++;
         dropFood();
+        tail.add(0, new Segment(head.x, head.y));
         } else if(head.x >= foodX && head.y <= foodY && head.x <= foodX+10 && head.y >= foodY-10) {
         	eaten++;
             dropFood();
+            tail.add(new Segment(head.x, head.y));
         }
     }
 
